@@ -5,8 +5,8 @@ from scipy.stats import norm
 last_x0s = []
 n = 100 #åJÇËï‘ÇµâÒêî
 ts_length = 1000  # éûä‘ÇÃí∑Ç≥
-xticks=[0.4,0.45,0.5,0.55,0.6]
-yticks=[5,10,15,20,25,30]
+xticks=[0.46,0.48,0.5,0.52,0.54]
+yticks=[5,10,15,20,25]
 for j in range(n):
     cu_x0 = uniform(0,1)  # x_0(t=0)
     cu_x1 = uniform(0,1)  # x_1(t=0)
@@ -34,12 +34,10 @@ for j in range(n):
         cu_x0 = (cu_x0*(i+1)+cu_a1)/(i+2)  #x_0(i+1)
         cu_x1 = (cu_x1*(i+1)+cu_a0)/(i+2)
     last_x0s.append(cu_x0)
-
-
-fig, axes = plt.subplots(figsize=(12, 12))
-axes.hist(last_x0s, alpha=0.6, bins=20)
+ax = plt.subplot(111)
+ax.hist(last_x0s, alpha=0.6, bins=10)
 t = 'ts = '+str(ts_length)+', times = '+str(n)
-axes.set_title(t)
-axes.set_xticks(xticks) 
-axes.set_yticks(yticks)
+ax.set_title(t)
+ax.set_xticks(xticks) 
+ax.set_yticks(yticks)
 plt.show()
