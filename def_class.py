@@ -12,6 +12,8 @@ class FP:
   #the example of profits:((1,-1),(-1,1),(-1,1),(1,-1)) :payoff of players(left-upper,right-upper,left-lower,right-lower)
 
     def play(self, ts_length): 
+        self.x0s=[]
+        self.x1s=[]
         self.cu_x0= uniform(0,1)
         self.cu_x1= uniform(0,1)
         cu_es=[[0,0],[0,0]]  # the list of expedted payoff [(p0_do0,p0_do1),(p1_do0,p1_do1)]
@@ -19,13 +21,11 @@ class FP:
         for i in range(ts_length):
             self.x0s.append(self.cu_x0)  # add x0(i) to x0s 
             self.x1s.append(self.cu_x1)  # add x1(i) to x1s
-            x0s.append(self.cu_x0)  # add x0(i) to x0s 
-            x1s.append(self.cu_x1)  # add x1(i) to x1s
             cu_es=[[0,0],[0,0]]  # the list of expedted payoff [(p0_do0,p0_do1),(p1_do0,p1_do1)]
-            cu_es[0][0] = self.pro[0][0]*cu_x0+self.pro[2][0]*(1-self.cu_x0)  #expected payoff of player0 by do act0
-            cu_es[0][1] = self.pro[1][0]*cu_x0+self.pro[3][0]*(1-self.cu_x0)  #expected payoff of player0 by do act1
-            cu_es[1][0] = self.pro[0][1]*cu_x1+self.pro[1][1]*(1-self.cu_x1)  #expected payoff of player1 by do act0
-            cu_es[1][1] = self.pro[2][1]*cu_x1+self.pro[3][1]*(1-self.cu_x1)  #expected payoff of player1 by do act1
+            cu_es[0][0] = self.pro[0][0]*self.cu_x0+self.pro[2][0]*(1-self.cu_x0)  #expected payoff of player0 by do act0
+            cu_es[0][1] = self.pro[1][0]*self.cu_x0+self.pro[3][0]*(1-self.cu_x0)  #expected payoff of player0 by do act1
+            cu_es[1][0] = self.pro[0][1]*self.cu_x1+self.pro[1][1]*(1-self.cu_x1)  #expected payoff of player1 by do act0
+            cu_es[1][1] = self.pro[2][1]*self.cu_x1+self.pro[3][1]*(1-self.cu_x1)  #expected payoff of player1 by do act1
             if cu_es[0][0] > cu_es[0][1]:  # determine the act of player0(a0)
                 cu_a0 = 0
             elif cu_es[0][0] == cu_es[0][1]:
