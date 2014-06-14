@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+﻿import matplotlib.pyplot as plt
 from random import uniform, randint
 
 class FP:
@@ -62,7 +62,7 @@ class FP:
     def histogram(self,n,ts_length):
         last_x0s = []
         for j in range(n):
-            self.play(ts_length)
+            self.oneplay(ts_length)
             last_x0s.append(self.cu_x0)
         ax = plt.subplot(111)
         ax.hist(last_x0s, alpha=0.6, bins=10)
