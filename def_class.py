@@ -13,7 +13,7 @@ class FP:
   # (((1,-1),(-1,1)),
   # ((-1,1),(1,-1)))
         
-    def play(self, ts_length): 
+    def oneplay(self, ts_length): 
         self.x0s=[]
         self.x1s=[]
         self.cu_x0= uniform(0,1)
@@ -43,14 +43,23 @@ class FP:
             self.cu_x0 = (self.cu_x0*(i+1)+cu_a1)/(i+2)  #x_0(i+1)
             self.cu_x1 = (self.cu_x1*(i+1)+cu_a0)/(i+2)
             
-    def plot(self,ts_length): 
-        self.play(ts_length)
+    def playplot(self,ts_length): 
+        self.oneplay(ts_length)
         plt.plot(self.x0s, 'b-', label='x_0(t)')  # x_0(t) is written with blue line
         plt.plot(self.x1s, 'r-', label='x_1(t)')  # x_0(t) is written with red line
         plt.legend()
         plt.show()
 
-    def histo(self,n,ts_length):
+    def playsave(self,ts_length,name):  #name is str
+        self.oneplay(ts_length)
+        plt.plot(self.x0s, 'b-', label='x_0(t)')  # x_0(t) is written with blue line
+        plt.plot(self.x1s, 'r-', label='x_1(t)')  # x_0(t) is written with red line
+        plt.legend()
+        plt.savefig(str(name)+'.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig(str(name)+'.pdf', bbox_inches='tight', pad_inches=0)
+        plt.show()  #show()を行わないとプロットが初期化されず、2回以上行った場合の挙動がおかしくなるので追加
+
+    def histogram(self,n,ts_length):
         last_x0s = []
         for j in range(n):
             self.play(ts_length)
@@ -58,9 +67,14 @@ class FP:
         ax = plt.subplot(111)
         ax.hist(last_x0s, alpha=0.6, bins=10)
         t = 'ts = '+str(ts_length)+', times = '+str(n)
-        xticks=[0.46,0.48,0.5,0.52,0.54]
-        yticks=[5,10,15,20,25]
         ax.set_title(t)
-        ax.set_xticks(xticks) 
-        ax.set_yticks(yticks)
+
+    def histplot(self,n,ts_length):
+        self.histogram(n,ts_length)
         plt.show()
+        
+    def histsave(self,n,ts_length,name):  #name is str
+        self.histogram(n,ts_length)
+        plt.savefig(str(name)+'.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig(str(name)+'.pdf', bbox_inches='tight', pad_inches=0)
+        plt.show()  #show()を行わないとプロットが初期化されず、2回以上行った場合の挙動がおかしくなるので追加
