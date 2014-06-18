@@ -1,12 +1,12 @@
 ﻿import matplotlib.pyplot as plt
 from random import uniform, randint
+import numpy as np
 
 class FP:
 
     def __init__(self, profits):
         self.pro = profits
-        self.cu_x0 = 0
-        self.cu_x1 = 0
+        self.cu_xs = [0,0]
         self.x0s=[]
         self.x1s=[]
   #the example of profits:
@@ -14,34 +14,29 @@ class FP:
   # ((-1,1),(1,-1)))
         
     def oneplay(self, ts_length): 
+        pro_cal = (np.transpose(pro)[0],np.transpose(np.transpose(pro)[1]))  # transform profits for calculate
         self.x0s=[]
         self.x1s=[]
-        self.cu_x0= uniform(0,1) #プレイヤー0が「相手が行動1をとる」と思う信念
-        self.cu_x1= uniform(0,1)
+        self.cu_xs= [uniform(0,1),uniform(0,1)] #プレイヤー0,1がそれぞれ「相手が行動1をとる」と思う信念
         cu_es=[[0,0],[0,0]]  # the list of expedted payoff [(p0_do0,p0_do1),(p1_do0,p1_do1)]
-        cu_as=[0,0]
         for i in range(ts_length):
-            self.x0s.append(self.cu_x0)  # add x0(i) to x0s 
-            self.x1s.append(self.cu_x1)  # add x1(i) to x1s
-            cu_es=[[0,0],[0,0]]  # the list of expedted payoff [(p0_do0,p0_do1),(p1_do0,p1_do1)]
-            cu_es[0][0] = self.pro[0][0][0]*(1-self.cu_x0)+self.pro[1][0][0]*self.cu_x0  #expected payoff of player0 by do act0
-            cu_es[0][1] = self.pro[0][1][0]*(1-self.cu_x0)+self.pro[1][1][0]*self.cu_x0  #expected payoff of player0 by do act1
-            cu_es[1][0] = self.pro[0][0][1]*(1-self.cu_x1)+self.pro[0][1][1]*self.cu_x1  #expected payoff of player1 by do act0
-            cu_es[1][1] = self.pro[1][0][1]*(1-self.cu_x1)+self.pro[1][1][1]*self.cu_x1  #expected payoff of player1 by do act1
-            if cu_es[0][0] > cu_es[0][1]:  # determine the act of player0(a0)
-                cu_a0 = 0
-            elif cu_es[0][0] == cu_es[0][1]:
-                cu_a0 = randint(0,1)  # 1or0(random)
-            else:
-                cu_a0 = 1
-            if cu_es[1][0] > cu_es[1][1]:  # determine the act of player0(a0)
-                cu_a1 = 0
-            elif cu_es[1][0] == cu_es[1][1]:
-                cu_a1 = randint(0,1)  # 1or0(random)
-            else:
-                cu_a1 = 1
-            self.cu_x0 = (self.cu_x0*(i+1)+cu_a1)/(i+2)  #x_0(i+1)
-            self.cu_x1 = (self.cu_x1*(i+1)+cu_a0)/(i+2)
+            self.x0s.append(self.cu_xs[0])  # add x0(i) to x0s 
+            self.x1s.append(self.cu_xs[1])  # add x1(i) to x1s
+            exp = ((1-self.cu_xs[0],self.cu_xs[0]),(1-self.cu_xs[1],self.cu_xs[1]))
+            cu_es[0]=np.dot(pro_cal[0],exp[0])
+            cu_es[1]=np.dot(pro_cal[1],exp[1])
+            cu_as=[0,0]
+            for j in range(2):
+                if cu_es[j][0] > cu_es[j][1]:  # determine the act of player0(a0)
+                    cu_as[j] = 0
+                elif cu_es[j][0] == cu_es[j][1]:
+                    cu_as[j] = randint(0,1)  # 1or0(random)
+                else:
+                    cu_as[j] = 1
+            for k in range(2):  
+                self.cu_xs[k] = (self.cu_xs[k]*(i+1)+cu_as[1-k])/(i+2)  #x(i+1)
+  #cu_as[1-i]という記述はプレイヤー数が2の時にしか使えない
+  #上のfor文に入れるとt=iでプレイヤー0はa_1(i-1)を、プレイヤー1はa_0(i)を足すことになるので両者がともにa(i)を足すよう分けた            
             
     def playplot(self,ts_length): 
         self.oneplay(ts_length)
@@ -62,7 +57,7 @@ class FP:
         last_x0s = []
         for j in range(n):
             self.oneplay(ts_length)
-            last_x0s.append(self.cu_x0)
+            last_x0s.append(self.cu_xs[0])
         ax = plt.subplot(111)
         ax.hist(last_x0s, alpha=0.6, bins=5)
         ax.set_xlim(xmin=0, xmax=1)
