@@ -14,7 +14,7 @@ class FP:
   # ((-1,1),(1,-1)))
         
     def oneplay(self, ts_length): 
-        pro_cal = (np.transpose(pro)[0],np.transpose(np.transpose(pro)[1]))  # transform profits for calculate
+        pro_cal = (np.transpose(self.pro)[0],np.transpose(np.transpose(self.pro)[1]))  # transform profits for calculate
         self.x0s=[]
         self.x1s=[]
         self.cu_xs= [uniform(0,1),uniform(0,1)] #プレイヤー0,1がそれぞれ「相手が行動1をとる」と思う信念
