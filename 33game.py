@@ -2,7 +2,7 @@
 from random import uniform, randint
 import numpy as np
 
-class FP:
+class threegame:
     def __init__(self, profits):
         self.pro = profits
         self.cu_xs = [[0,0],[0,0]] 
@@ -68,4 +68,26 @@ class FP:
         plt.plot(self.x1_1s, 'r-', label='x_1_1(t)')  # x_0(t) is written with red line
         plt.plot(self.x1_2s, 'k-', label='x_1_2(t)') 
         plt.legend()
+        plt.show()
+
+    def histogram(self,n,ts_length):
+        last_x0_1s = []
+        last_x0_2s = []
+        for j in range(n):
+            self.oneplay(ts_length)
+            last_x0_1s.append(self.cu_xs[0][0])
+            last_x0_2s.append(self.cu_xs[0][1])
+        ax = plt.subplot(121)
+        ax.hist(last_x0_1s, alpha=0.6, bins=5)
+        ax.set_xlim(xmin=0, xmax=1)
+        t = 'x0_1,''ts = '+str(ts_length)+', times = '+str(n)
+        ax.set_title(t)
+        ax = plt.subplot(122)
+        ax.hist(last_x0_2s, alpha=0.6, bins=5)
+        ax.set_xlim(xmin=0, xmax=1)
+        t = 'x0_2,''ts = '+str(ts_length)+', times = '+str(n)
+        ax.set_title(t)
+        
+    def histplot(self,n,ts_length):
+        self.histogram(n,ts_length)
         plt.show()
