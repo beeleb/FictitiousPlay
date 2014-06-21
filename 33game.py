@@ -93,6 +93,18 @@ class threegame:
         plt.legend()
         plt.show()
 
+    def playsave(self, ts_length, name):  # name is str
+        self.oneplay(ts_length)
+        self.oneplay(ts_length)
+        plt.plot(self.x0_1s, 'b-', label='x_0_1(t)')  # x_0_1(t) is blue line
+        plt.plot(self.x0_2s, 'c-', label='x_0_2(t)')  # x_0_2(t) is cyan
+        plt.plot(self.x1_1s, 'r-', label='x_1_1(t)')  # x_1_1(t) is red
+        plt.plot(self.x1_2s, 'm-', label='x_1_2(t)')  # x_1_2(t) is magenta
+        plt.legend()
+        plt.savefig(str(name)+'.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig(str(name)+'.pdf', bbox_inches='tight', pad_inches=0)
+        plt.close()
+
     def histogram(self, n, ts_length):
         last_x0_1s = []
         last_x0_2s = []
@@ -114,3 +126,9 @@ class threegame:
     def histplot(self, n, ts_length):
         self.histogram(n, ts_length)
         plt.show()
+
+    def histsave(self, n, ts_length, name):  # name is str
+        self.histogram(n, ts_length)
+        plt.savefig(str(name)+'.png', bbox_inches='tight', pad_inches=0)
+        plt.savefig(str(name)+'.pdf', bbox_inches='tight', pad_inches=0)
+        plt.close()
