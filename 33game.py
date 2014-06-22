@@ -1,7 +1,7 @@
 ﻿import matplotlib.pyplot as plt
 from random import uniform, randint
 import numpy as np
-
+from mpl_toolkits.mplot3d import Axes3D
 
 class threegame:
     def __init__(self, profits):
@@ -24,12 +24,13 @@ class threegame:
          ((7,8),(9,10),(11,12)),
         ((13,14),(15,16),(17,18)))
         """
-
+        self.timelist =[]
     def oneplay(self, ts_length):
         self.x0_1s = []
         self.x0_2s = []
         self.x1_1s = []
         self.x1_2s = []
+        self.timelist =[]
         pro_cal = (np.transpose(self.pro)[0],
                    np.transpose(np.transpose(self.pro)[1]))
         # transform profits for calculate
@@ -46,6 +47,7 @@ class threegame:
         [(p0_do0,p0_do1,p0_do2),(p1_do0,p1_do1,p1_do2)]
         """
         for i in range(ts_length):
+            self.timelist.append(i)
             self.x0_1s.append(self.cu_xs[0][0])  # add x0_1(i) to x0_1s
             self.x0_2s.append(self.cu_xs[0][1])  # add x0_2(i) to x0_2s
             self.x1_1s.append(self.cu_xs[1][0])  # add x1_1(i) to x1_1s
@@ -86,20 +88,35 @@ class threegame:
 
     def playplot(self, ts_length):
         self.oneplay(ts_length)
+        """
         plt.plot(self.x0_1s, 'b-', label='x_0_1(t)')  # x_0_1(t) is blue line
         plt.plot(self.x0_2s, 'c-', label='x_0_2(t)')  # x_0_2(t) is cyan
         plt.plot(self.x1_1s, 'r-', label='x_1_1(t)')  # x_1_1(t) is red
         plt.plot(self.x1_2s, 'm-', label='x_1_2(t)')  # x_1_2(t) is magenta
+        """
+        fig = plt.figure()
+        ax = Axes3D(fig)
+        ax.plot_wireframe(self.timelist,self.x0_1s,self.x0_2s, color = 'b',label='x_0(t)')
+        ax.plot_wireframe(self.timelist,self.x1_1s,self.x1_2s, color = 'r',label='x_1(t)')
+        ax.set_ylim(ymin=0, ymax=1)
+        ax.set_zlim(zmin=0, zmax=1)
         plt.legend()
         plt.show()
 
     def playsave(self, ts_length, name):  # name is str
         self.oneplay(ts_length)
-        self.oneplay(ts_length)
+        """
         plt.plot(self.x0_1s, 'b-', label='x_0_1(t)')  # x_0_1(t) is blue line
         plt.plot(self.x0_2s, 'c-', label='x_0_2(t)')  # x_0_2(t) is cyan
         plt.plot(self.x1_1s, 'r-', label='x_1_1(t)')  # x_1_1(t) is red
         plt.plot(self.x1_2s, 'm-', label='x_1_2(t)')  # x_1_2(t) is magenta
+        """
+        fig = plt.figure()
+        ax = Axes3D(fig)
+        ax.plot_wireframe(self.timelist,self.x0_1s,self.x0_2s, color = 'b',label='x_0(t)')
+        ax.plot_wireframe(self.timelist,self.x1_1s,self.x1_2s, color = 'r',label='x_1(t)')
+        ax.set_ylim(ymin=0, ymax=1)
+        ax.set_zlim(zmin=0, zmax=1)
         plt.legend()
         plt.savefig(str(name)+'.png', bbox_inches='tight', pad_inches=0)
         plt.savefig(str(name)+'.pdf', bbox_inches='tight', pad_inches=0)
@@ -132,3 +149,6 @@ class threegame:
         plt.savefig(str(name)+'.png', bbox_inches='tight', pad_inches=0)
         plt.savefig(str(name)+'.pdf', bbox_inches='tight', pad_inches=0)
         plt.close()
+
+# f=threegame((((1,0),(0,0),(0,1)),((0,1),(1,0),(0,0)),((0,0),(0,1),(1,0))))
+# playplotに関してはそこそこ性能のよいはずのPCでもt=10000でカクつき、t=100000では動かなくなったのであまり増やしてはいけない
