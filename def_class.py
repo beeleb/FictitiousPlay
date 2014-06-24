@@ -1,5 +1,5 @@
 ﻿import matplotlib.pyplot as plt
-from random import uniform, randint
+import random
 import numpy as np
 
 
@@ -10,17 +10,26 @@ class FP:
         self.cu_xs = [0, 0]
         self.x0s = []
         self.x1s = []
-    # the example of profits:
-    # (((1,-1),(-1,1)),
-    # ((-1,1),(1,-1)))
+        """
+        the example of profits:(((1,-1),(-1,1)),
+                                ((-1,1),(1,-1)))
+        プレイヤー0は行を、プレイヤー1は列を選択する
+        """
 
-    def oneplay(self, ts_length):
         pro_cal = (np.transpose(self.pro)[0],
                    np.transpose(np.transpose(self.pro)[1]))
-        # transform profits for calculate
-        self.x0s = []
-        self.x1s = []
-        self.cu_xs = [uniform(0, 1), uniform(0, 1)]
+        """
+        たとえば最初の利得行列が(((1, 2), (3, 4)),
+                                 ((5, 6), (7, 8)))
+        だと、この時点でpro_calは
+        array([[[1,3],
+                [5,7]],
+               [[2,6],
+                [4,8]]])となる
+        """
+        self.x0s = []  # reset
+        self.x1s = []  # reset
+        self.cu_xs = [random.uniform(0, 1), random.uniform(0, 1)]
         # プレイヤー0,1がそれぞれ「相手が行動1をとる」と思う信念
         cu_es = [[0, 0], [0, 0]]
         # the list of expedted payoff [(p0_do0,p0_do1),(p1_do0,p1_do1)]
@@ -31,22 +40,15 @@ class FP:
                    (1-self.cu_xs[1], self.cu_xs[1]))
             cu_es[0] = np.dot(pro_cal[0], exp[0])
             cu_es[1] = np.dot(pro_cal[1], exp[1])
-            cu_as = [0, 0]
+            cu_as = [0, 0]  # the act of players
             for j in range(2):
-                if cu_es[j][0] > cu_es[j][1]:
-                    cu_as[j] = 0
-                elif cu_es[j][0] == cu_es[j][1]:
-                    cu_as[j] = randint(0, 1)  # 1or0(random)
+                if cu_es[j][0] == cu_es[j][1]:
+                    cu_as[j] = random.randint(0, 1)
                 else:
-                    cu_as[j] = 1
-            # determine the act of player0(a0)
+                    cu_as[j] = cu_es[j].argmax()
             for k in range(2):
                 self.cu_xs[k] = (self.cu_xs[k]*(i+1)+cu_as[1-k])/(i+2)
                 # x(i) to x(i+1)
-                # cu_as[1-i]という記述はプレイヤー数が2の時にしか使えない
-            # 上のfor文に入れるとt=iでプレイヤー0はa_1(i-1)を,
-            # プレイヤー1はa_0(i)を足すことになるので
-            # 両者がともにa(i)を足すよう分けた
 
     def playplot(self, ts_length):
         self.oneplay(ts_length)
