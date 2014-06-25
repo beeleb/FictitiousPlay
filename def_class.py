@@ -15,7 +15,7 @@ class FP:
                                 ((-1,1),(1,-1)))
         プレイヤー0は行を、プレイヤー1は列を選択する
         """
-
+    def oneplay(self, ts_length):
         pro_cal = (np.transpose(self.pro)[0],
                    np.transpose(np.transpose(self.pro)[1]))
         """
