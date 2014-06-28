@@ -61,13 +61,13 @@ Fictitious Playの説明
 \frametitle{一般的なFictitious Playの説明}
 \begin{itemize}\setlength{\parskip}{0.5em}
 \item
-一定の利得表のもとで、プレイヤー0,プレイヤー1の2人が標準型ゲームを複数回繰り返す\pause
+一定の利得表のもとで, プレイヤー0,プレイヤー1の2人が標準型ゲームを複数回繰り返す\pause
 \item
-プレイヤーはそれぞれ「相手はこのような確率分布で行動する」という信念をもち、その確率分布の下で自らの期待利得が最大となるような行動をとると仮定する\pause
+プレイヤーはそれぞれ「相手はこのような確率分布で行動する」という信念をもち, その確率分布の下で自らの期待利得が最大となるような行動をとると仮定する\pause
 \item
-ある期における信念が、その期以前に相手が実際にとった行動の経験分布と一致する場合に、この動学モデルを\emph{Fictitious Play}とよぶ\pause
+ある期における信念が, その期以前に相手が実際にとった行動の経験分布と一致する場合に, この動学モデルを\emph{Fictitious Play}とよぶ\pause
 \item
-今回は厳密なそれとは少し異なるが、同様に相手の行動の経験分布が信念に大きな影響を与えるモデルを考えた
+今回は厳密なそれとは少し異なるが, 同様に相手の行動の経験分布が信念に大きな影響を与えるモデルを考えた
 \end{itemize}
 \end{frame}
 
@@ -78,11 +78,11 @@ Fictitious Playの説明
 \item
 プレイヤーは共に行動0,行動1という2つの選択肢をもつ\pause
 \item
-$t$回目のゲームを行う直前の時点での確率分布に関する信念のうち、とくにプレイヤー$i$の「相手はこのような確率で行動1をとる」という信念を$x_i(t)$として表すことにする\pause
+$t$回目のゲームを行う直前の時点での確率分布に関する信念のうち, とくにプレイヤー$i$の「相手はこのような確率で行動1をとる」という信念を$x_i(t)$として表すことにする\pause
 \item
 ゲームを1回も行っていない$t=0$での信念は初期信念$x_i(0)$として$[0,1]$間の一様分布からランダムに定まる\pause
 \item
-また、$t$期におけるプレイヤー$i$の行動を$a_i(t)$と表すことにする. たとえば
+また, $t$期におけるプレイヤー$i$の行動を$a_i(t)$と表すことにする. たとえば
 \begin{itemize}\setlength{\parskip}{0.5em}
 \item$t=5$でプレイヤー0が行動1をとったら$a_0(5)=1$
 \item$t=8$でプレイヤー1が行動0をとったら$a_1(8)=0$
@@ -101,7 +101,7 @@ x_i(k)=\frac{x_i(0)+\sum_{j=0}^{(k-1)} a_{(1-i)}(j)}{k+1}
 と表される\\
 (初期信念が後の信念に影響する点が通常のfictitious playとは異なる)\pause
 \item
-たとえば$x_0(0)=0.5$で、$t=0$から$t=8$までの9回でプレイヤー1が7回行動1を選択していたとしたら
+たとえば$x_0(0)=0.5$で, $t=0$から$t=8$までの9回でプレイヤー1が7回行動1を選択していたとしたら
 $t=9$時点のプレイヤー0の信念$x_0(9)$は以下のようになる
 \[
 x_0(9)=\frac{0.5+7}{1+9}=\frac{7.5}{10}=0.75
@@ -113,22 +113,22 @@ x_0(9)=\frac{0.5+7}{1+9}=\frac{7.5}{10}=0.75
 \frametitle{今回取り上げるFictitious Playの説明}
 \begin{itemize}\setlength{\parskip}{0.5em}
 \item
-すると、
+すると, 
 \[
 x_i(k+1)=x_i(k)\times\frac{k+1}{k+2}+a_{(1-i)}(k)\times\frac{1}{k+2}
 \]
 が成り立つことがわかる\pause
 \item
-このことから、$x_0(t)$を再帰的に
+このことから, $x_0(t)$を再帰的に
 \[
 x_0(t+1)
 = x_0(t) + \frac{1}{t+2} (a_1(t) - x_0(t))
 \]
 と書き表すことができる\pause
 \item
-上式より、直前の行動が信念に与える影響は次第に小さくなっていくため、各人の信念はいずれ何らかの値に収束してゆくのではないか、と考えられる。\pause
+上式より, 直前の行動が信念に与える影響は次第に小さくなっていくため, 各人の信念はいずれ何らかの値に収束してゆくのではないか, と考えられる\pause
 \item
-次ページ以降ではこの$2\times2$のfictitious playを表現したプログラムのコードを書き、実際にいくつかのゲームの利得表を代入してプログラムを実行してみることで、この仮説が正しいかを検証したい。
+次ページ以降ではこの$2\times2$のfictitious playを表現したプログラムのコードを書き, 実際にいくつかのゲームの利得表を代入してプログラムを実行してみることで, この仮説が正しいかを検証したい
 \end{itemize}
 \end{frame}
 
@@ -149,7 +149,7 @@ $n$回のゲームからなるfictitious playを$m$回行い, $x_0(n-1)$がと�
 \item
 次ページ以降でコードの説明を行う\pause
 \item
-なお、インデントについては一部割愛しているので注意
+なお, インデントについては一部割愛しているので注意
 \end{itemize}
 \end{frame}
 
@@ -236,7 +236,7 @@ class FP:
 \begin{itemize}\setlength{\parskip}{0.5em}
 
 \item
-\verb|self.pro|は\verb|profits|と同じであり、たとえば利得行列
+\verb|self.pro|は\verb|profits|と同じであり, たとえば利得行列
 \footnotesize
 \begin{equation*}
 \begin{pmatrix}
@@ -278,7 +278,7 @@ def oneplay(self, ts_length):
 \normalsize
 
 \item
-\verb|oneplay|は\verb|ts_length|の値の回数だけゲームを行い、$x_0(t),x_1(t)$の値の推移を記録するメソッド\pause\\
+\verb|oneplay|は\verb|ts_length|の値の回数だけゲームを行い, $x_0(t),x_1(t)$の値の推移を記録するメソッド\pause\\
 最初に\verb|x0s, x1s|を空にすることでこのoneplayを複数回行えるようにしている\\
 (これがないと何回も繰り返した時に要素が無尽蔵に増える)\pause
 \item
@@ -286,7 +286,7 @@ def oneplay(self, ts_length):
 \item
 \verb|cu_xs|はランダムに定まる初期信念$x_0(0),x_1(0)$の値になる\pause
 \item
-\verb|cu_es|はその時点で各プレイヤーが各行動をとったときの期待利得を表し、ここではリストの形だけを定めている
+\verb|cu_es|はその時点で各プレイヤーが各行動をとったときの期待利得を表し, ここではリストの形だけを定めている
 \end{itemize}
 \end{frame}
 
@@ -317,7 +317,7 @@ def oneplay(self, ts_length):
 \end{equation*}
 \normalsize
 を表すリスト\verb|[[[a,b],[c,d]],[[e,f],[g,h]]]|に対してこの操作を行うと\pause
-\verb|[array[[a,c],[e,g]],array[[b,f],[d,h]]|となる。\\すなわち
+\verb|[array[[a,c],[e,g]],array[[b,f],[d,h]]|となる\\すなわち
 \footnotesize
 \begin{equation*}
 \begin{pmatrix}
@@ -358,7 +358,7 @@ for i in range(ts_length):
 \\n回これを繰り返すと$t=0,1,\dots,n-1$における$x_0(t),x_1(t)$の値がそれぞれ順番に記録される
 \item
 \verb|exp|はプレイヤー2人が考える相手の行動の確率分布を行列の形で表したもの\pause\\
-いま、\verb|cu_xs|は[$x_0(t),x_1(t)$]となっているので、\verb|exp|は以下のようになる\pause
+いま, \verb|cu_xs|は[$x_0(t),x_1(t)$]となっているので, \verb|exp|は以下のようになる\pause
 \footnotesize
 \begin{equation*}
 \begin{pmatrix}
@@ -384,7 +384,7 @@ for i in range(ts_length):
 \normalsize
 \item
 期待利得を表す\verb|cu_es|の値を計算する\pause\\
-\verb|np.dot|は行列の積を表すので、ここでやっている計算は
+\verb|np.dot|は行列の積を表すので, ここでやっている計算は
 \footnotesize
 \begin{equation*}
 \begin{pmatrix}
@@ -408,7 +408,7 @@ x_1(t)
 \normalsize
 の2つである\pause
 \item
-\verb|cu_as|はある時点での実際の行動を表すリストで、ここでは形だけを定めている
+\verb|cu_as|はある時点での実際の行動を表すリストで, ここでは形だけを定めている
 \end{itemize}
 \end{frame}
 
@@ -513,7 +513,7 @@ def playsave(self, ts_length, name):
 \verb|playsave(1000,'fictplay')|のように入力して実行\pause\\
 この場合は$t=0,1,\dots,999$についての推移を表すグラフを"fictplay.png"および"fictplay.pdf"として保存している\pause
 \item
-保存するグラフを前もって見ることができないため、推移が何種類か考えられるようなものを漏らさず保存するのには不向き\pause\\
+保存するグラフを前もって見ることができないため, 推移が何種類か考えられるようなものを漏らさず保存するのには不向き\pause\\
 \end{itemize}
 \end{frame}
 
@@ -533,7 +533,7 @@ def histogram(self, n, ts_length):
 \end{verbatim}\pause
 \normalsize
 \item
-\verb|oneplay|メソッドを何回も実行し、各回における最終的な$x_0$の値を記録するメソッド
+\verb|oneplay|メソッドを何回も実行し, 各回における最終的な$x_0$の値を記録するメソッド
 \pause
 \item
 \verb|histogram(100,1000)|のように入力して実行\pause\\
@@ -561,7 +561,7 @@ ax.set_title(t)
 \normalsize
 \pause
 \item
-\verb|last_x0s|からヒストグラムを作り、表示せずにバックグラウンドでプロットしている
+\verb|last_x0s|からヒストグラムを作り, 表示せずにバックグラウンドでプロットしている
 \pause
 \item
 確率分布としてわかりやすいよう$x$の範囲は0から1まで
@@ -630,7 +630,7 @@ def histsave(self, n, ts_length, name):
 \frametitle{具体的なゲームにおけるプログラムの実行}
 \begin{itemize}\setlength{\parskip}{0.5em}
 \item
-ここまでで説明したコードを用いて、特定の利得表で表されるゲームの様子を実際に求めてみる
+ここまでで説明したコードを用いて, 特定の利得表で表されるゲームの様子を実際に求めてみる
 \item
 今回行うのは次の2つのゲームである\pause
 \begin{itemize}\setlength{\parskip}{0.5em}
@@ -653,20 +653,20 @@ Matching Pennies Gameは以下のような利得表をもつ単純なゲーム�
  \begin{table}
  \begin{tabular}{|c|c|c|} \hline
     　 & 行動0 & 行動1 \\ \hline 
-    行動0 & 1,-1 & -1,1 \\ \hline
-    行動1 & -1,1 & 1,-1 \\ \hline
+    行動0 & $1,-1$ & $-1,1$ \\ \hline
+    行動1 & $-1,1$ & $1,-1$ \\ \hline
    \end{tabular}
   \end{table}\pause
 \item
 このゲームに純粋戦略ナッシュ均衡は存在しない\pause
 \item
-また、混合戦略ナッシュ均衡は両者ともに$(0.5,0.5)$(のみ)である \pause
+また, 混合戦略ナッシュ均衡は両者ともに$(0.5,0.5)$(のみ)である \pause
 \item
-このため、$x_i(t)$が収束するのであればそれは$0.5$と予測される\pause
+このため, $x_i(t)$が収束するのであればそれは$0.5$と予測される\pause
 \item
-実際にプログラムを実行し、描画したグラフおよびヒストグラムはコードの説明で用いたものに等しい
+実際にプログラムを実行し, 描画したグラフおよびヒストグラムはコードの説明で用いたものに等しい
 \item
-図より、たしかにこのゲームでのfictitious playでは両者の混合戦略は$(0.5,0.5)$に収束するとわかる
+図より, たしかにこのゲームでのfictitious playでは両者の混合戦略は$(0.5,0.5)$に収束するとわかる
 
 \end{itemize}
 \end{frame}
@@ -679,8 +679,8 @@ Coordination Gameは以下のような利得表をもつゲームである
  \begin{table}
  \begin{tabular}{|c|c|c|} \hline
     & 行動0 & 行動1 \\ \hline 
-    行動0 & 4,4 & 0,3 \\ \hline
-    行動1 & 3,0 & 2,2 \\ \hline
+    行動0 & $4,4$ & $0,3$ \\ \hline
+    行動1 & $3,0$ & $2,2$ \\ \hline
    \end{tabular}
   \end{table}\pause
 \item
@@ -688,7 +688,7 @@ Coordination Gameは以下のような利得表をもつゲームである
 $(a_1,a_2)=(0,0),(1,1)$
 の2つである\pause
 \item
-また、混合戦略ナッシュ均衡は両者ともに
+また, 混合戦略ナッシュ均衡は両者ともに
 $(\frac{2}{3},\frac{1}{3})$
 のみである
 \pause
@@ -713,9 +713,9 @@ $(\frac{2}{3},\frac{1}{3})$
 \frametitle{Coordination}
 \begin{itemize}\setlength{\parskip}{0.5em}
 \item
-前ページのヒストグラムより、3つのナッシュ均衡点のうち混合戦略ナッシュ均衡は実現していないことがわかる\pause
+前ページのヒストグラムより, 3つのナッシュ均衡点のうち混合戦略ナッシュ均衡は実現していないことがわかる\pause
 \item
-これはこのゲームが「相手と同じ戦略を取るのがよい」という性質を持つゲームであり、どちらかの$x_i(t)$が0あるいは1に一定以上近づいた時点でもう片方もその行動を優先するようになるためであると考えられる\pause
+これはこのゲームが「相手と同じ戦略を取るのがよい」という性質を持つゲームであり, どちらかの$x_i(t)$が0あるいは1に一定以上近づいた時点でもう片方もその行動を優先するようになるためであると考えられる\pause
 \item
 $x_i(t)$が1に収束したパターンと0に収束したパターンのグラフを次に記す\pause\\
 いずれもmatching penniesに比べ収束が速いことがわかる
@@ -747,7 +747,7 @@ $x_i(t)$が1に収束したパターンと0に収束したパターンのグラ�
 \item
 fictitious playではナッシュ均衡点に収束してゆく\pause
 \item
-だが、ナッシュ均衡点の全てが収束先となるわけではない
+だが, ナッシュ均衡点の全てが収束先となるわけではない
 \end{itemize}
 \end{frame}
 
@@ -761,7 +761,7 @@ np.transpose()を利得行列に使った際に行われている処理\pause\\
 おそらく利得行列は3次元配列の行列として扱われている\\
 3次元配列での転置とは何をどうしているのか$\cdots\cdots$?
 \item
-ヒストグラムをプロットする際、現在は値が出た区間を5等分しているが、これを結果にかかわらず$[0,1]$の区間を10等分するように変えたい
+ヒストグラムをプロットする際, 現在は値が出た区間を5等分しているが, これを結果にかかわらず$[0,1]$の区間を10等分するように変えたい
 
 \end{itemize}
 \end{frame}
