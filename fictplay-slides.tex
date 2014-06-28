@@ -1,5 +1,5 @@
-\documentclass[dvipdfmx,fleqn]{beamer}
-%\documentclass[dvipdfmx,fleqn,handout]{beamer}
+%\documentclass[dvipdfmx,fleqn]{beamer}
+\documentclass[dvipdfmx,fleqn,handout]{beamer}
 \usepackage{amsmath,amssymb,amsthm}
 
 \mode<presentation>
@@ -36,76 +36,125 @@
 
 
 \begin{frame}
-\frametitle{はじめに}
+\frametitle{目次}
 \begin{itemize}\setlength{\parskip}{0.5em}
 \item
-項目1
-
+Fictitious Playの説明
 \item
-項目2
- \begin{itemize}\setlength{\parskip}{0.5em}
+コードの説明
+\item
+プログラムを用いたFictitious Playのシミュレーション 
+\begin{itemize}\setlength{\parskip}{0.5em}
  \item
- 1階層下の項目1
+ Matching Pennies Game
  \item
- 1階層下の項目2
+ Coordination Game
  \end{itemize}
-
 \item
-このページの最後の項目
+まとめ
 \end{itemize}
 \end{frame}
 
 
 
 \begin{frame}
-\frametitle{次のスライド}
+\frametitle{一般的なFictitious Playの説明}
 \begin{itemize}\setlength{\parskip}{0.5em}
 \item
-Ficititious playの説明1\\
-利得表の中から、プレイヤー0は行を自由に選べ、プレイヤー1は列を自由に選べると考えて良い。\\
-プレイヤーはそれぞれ「相手はこのような確率分布で行動する」という信念に従って、自らの期待利得が最大となるような行動をとる\\
-とくに「相手はこのような確率で行動1をとる」という信念を$x_i(t)$として表すことにする\\
-ゲームを1回も行っていない時の信念は初期信念$x_i(0)$として$[0,1]$間の一様分布からランダムに定まる\\
-k回ゲームを終えた時点での信念$x_i(k)$は
-\begin{equation*}
-x_i(k)=\frac{x_i(0)+(\mbox{実際に相手が行動1をとった回数})}{k+1}
-\end{equation*}
-と表される\\
-たとえば$x_0(0)=0.5$で、9回目までにプレイヤー1が7回行動1を選択していたとしたら
-この時点でのプレイヤー0の信念$x_0(9)$は
-\begin{equation*}
-x_0(9)=\frac{0.5+7}{1+9}=\frac{7.5}{10}=0.75
-\end{equation*}
-となる
+一定の利得表のもとで、プレイヤー0,プレイヤー1の2人が標準型ゲームを複数回繰り返す\pause
 \item
-Ficititious playの説明2 \pause
-
-$x_0(t)$ は
-\[
-x_0(t+1)
-= x_0(t) + \frac{1}{t+2} (a_1(t) - x_0(t))
-\]
-と再帰的に書くことができる． \pause
-
+プレイヤーはそれぞれ「相手はこのような確率分布で行動する」という信念をもち、その確率分布の下で自らの期待利得が最大となるような行動をとると仮定する\pause
 \item
-Ficititious playの説明3 \pause
-
+ある期における信念が、その期以前に相手が実際にとった行動の経験分布と一致する場合に、この動学モデルを\emph{Fictitious Play}とよぶ\pause
 \item
-``\texttt{pause}''をつけるとoverlayができる．
-
-\item
-ファイルの冒頭の\texttt{documentclass}のオプションで\texttt{handout}を指定すると，
-overlayにならずいっぺんに表示される．
-
-Webにのせるときや，印刷して配るときなどは\texttt{handout}を指定しておく．
-
+今回は厳密なそれとは少し異なるが、同様に相手の行動の経験分布が信念に大きな影響を与えるモデルを考えた
 \end{itemize}
 \end{frame}
 
 
+\begin{frame}
+\frametitle{今回取り上げるFictitious Playの説明}
+\begin{itemize}\setlength{\parskip}{0.5em}
+\item
+プレイヤーは共に行動0,行動1という2つの選択肢をもつ\pause
+\item
+$t$回目のゲームを行う直前の時点での確率分布に関する信念のうち、とくにプレイヤー$i$の「相手はこのような確率で行動1をとる」という信念を$x_i(t)$として表すことにする\pause
+\item
+ゲームを1回も行っていない時の信念は初期信念$x_i(0)$として$[0,1]$間の一様分布からランダムに定まる\pause
+\item
+また、$t$回目におけるプレイヤー$i$の行動を$a_i(t)$と表すことにする. たとえば
+\begin{itemize}\setlength{\parskip}{0.5em}
+\item5回目にプレイヤー0が行動1をとったら$a_0(5)=1$
+\item8回目にプレイヤー1が行動0をとったら$a_1(8)=0$
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{今回取り上げるFictitious Playの説明}
+\begin{itemize}\setlength{\parskip}{0.5em}
+\item
+$k-1$回ゲームを終えた時点での信念$x_i(k)$は
+\[
+x_i(k)=\frac{x_i(0)+\sum_{j=1}^{(k-1)} a_{(1-i)}(j)}{k+1}
+\]
+と表される\\
+(初期信念が後の信念に影響する点が通常のfictitious playとは異なる)\pause
+\item
+たとえば$x_0(0)=0.5$で、9回目までにプレイヤー1が7回行動1を選択していたとしたら
+10回目時点のプレイヤー0の信念$x_0(10)$は以下のようになる
+\[
+x_0(10)=\frac{0.5+7}{1+9}=\frac{7.5}{10}=0.75
+\]
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{今回取り上げるFictitious Playの説明}
+\begin{itemize}\setlength{\parskip}{0.5em}
+\item
+すると、
+\[
+x_i(k+1)=x_i(k)\times\frac{k+1}{k+2}+a_{(1-i)}(k)\times\frac{1}{k+2}
+\]
+が成り立つことがわかる\pause
+\item
+このことから、$x_0(t)$を再帰的に
+\[
+x_0(t+1)
+= x_0(t) + \frac{1}{t+2} (a_1(t) - x_0(t))
+\]
+と書き表すことができる\pause
+\item
+上式より、直前の行動が信念に与える影響は次第に小さくなっていくため、各人の信念はいずれ何らかの値に収束してゆくのではないか、と考えられる。\pause
+\item
+次ページ以降ではこの$2\times2$のfictitious playを表現したプログラムのコードを書き、実際にいくつかのゲームの利得表を代入してプログラムを実行してみることで、この仮説が正しいかを検証したい。
+\end{itemize}
+\end{frame}
 
 \begin{frame}[fragile]   %[containsverbatim]% verbatim 環境を使えるように
 \frametitle{コードの説明}
+\begin{itemize}\setlength{\parskip}{0.5em}
+
+\item
+プログラムに入れた機能は次の4つである\pause
+\item
+$n$回のゲームを行い, $t=0,1,\dots,n-1$における$x_i(t)$の推移をプロットした$t-x$グラフを表示する\pause
+\item
+上記のグラフをPNG,PDF形式で保存する\pause
+\item
+$n$回のゲームからなるfictitious playを$m$回行い, $x_0(n-1)$がとった値の度数分布をヒストグラムとして表示する\pause
+\item
+上記のヒストグラムをPNG,PDF形式で保存する\pause
+\item
+次ページ以降でコードの説明を行う\pause
+\item
+なお、インデントについては一部割愛しているので注意
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]   %[containsverbatim]% verbatim 環境を使えるように
+\frametitle{インポート}
 \begin{itemize}\setlength{\parskip}{0.5em}
 
 \item
@@ -249,8 +298,8 @@ def oneplay(self, ts_length):
 \footnotesize
 \begin{verbatim}
 def oneplay(self, ts_length):
-       pro_cal = (np.transpose(self.pro)[0],
-                  np.transpose(np.transpose(self.pro)[1]))
+　　　　pro_cal = (np.transpose(np.transpose(self.pro)[0]),
+                   　np.transpose(self.pro)[1])
        self.x0s = []
        self.x1s = []
        self.cu_xs = [random.uniform(0, 1), random.uniform(0, 1)]
@@ -268,16 +317,16 @@ def oneplay(self, ts_length):
 \end{equation*}
 \normalsize
 を表すリスト\verb|[[[a,b],[c,d]],[[e,f],[g,h]]]|に対してこの操作を行うと\pause
-\verb|[array[[a,e],[c,g]],array[[b,d],[f,h]]|となる。\\すなわち
+\verb|[array[[a,c],[e,g]],array[[b,f],[d,h]]|となる。\\すなわち
 \footnotesize
 \begin{equation*}
 \begin{pmatrix}
-a & e\\
-c & g
+a & c\\
+e & g
 \end{pmatrix},
 \begin{pmatrix}
-b & d\\
-f & h
+b & f\\
+d & h
 \end{pmatrix}
 \end{equation*}
 \normalsize
@@ -339,8 +388,8 @@ for i in range(ts_length):
 \footnotesize
 \begin{equation*}
 \begin{pmatrix}
-a & e\\
-c & g
+a & c\\
+e & g
 \end{pmatrix}\cdot
 \begin{pmatrix}
 1-x_0(t) \\
@@ -348,8 +397,8 @@ x_0(t)
 \end{pmatrix}
 , 
 \begin{pmatrix}
-b & d\\
-f & h
+b & f\\
+d & h
 \end{pmatrix}\cdot
 \begin{pmatrix}
 1-x_1(t)\\
@@ -577,23 +626,143 @@ def histsave(self, n, ts_length, name):
 
 
 
-
-
-
 \begin{frame}
-\frametitle{まとめ}
+\frametitle{具体的なゲームにおけるプログラムの実行}
 \begin{itemize}\setlength{\parskip}{0.5em}
 \item
-まとめ
-
+ここまでで説明したコードを用いて、特定の利得表で表されるゲームの様子を実際に求めてみる
 \item
-よくわかっていない点とか
-
+今回行うのは次の2つのゲームである\pause
+\begin{itemize}\setlength{\parskip}{0.5em}
 \item
-今後の課題とか
+Matching Pennies Game
+\item
+Coordination Game
+\end{itemize}
 \end{itemize}
 \end{frame}
 
 
 
+\begin{frame}
+\frametitle{Matching Pennies}
+\begin{itemize}\setlength{\parskip}{0.5em}
+
+\item
+Matching Pennies Gameは以下のような利得表をもつ単純なゲームである
+ \begin{table}
+ \begin{tabular}{|c|c|c|} \hline
+    　 & 行動0 & 行動1 \\ \hline 
+    行動0 & 1,-1 & -1,1 \\ \hline
+    行動1 & -1,1 & 1,-1 \\ \hline
+   \end{tabular}
+  \end{table}\pause
+\item
+このゲームに純粋戦略ナッシュ均衡は存在しない\pause
+\item
+また、混合戦略ナッシュ均衡は両者ともに$(0.5,0.5)$(のみ)である \pause
+\item
+このため、$x_i(t)$が収束するのであればそれは$0.5$と予測される\pause
+\item
+実際にプログラムを実行し、描画したグラフおよびヒストグラムはコードの説明で用いたものに等しい
+\item
+図より、たしかにこのゲームでのfictitious playでは両者の混合戦略は$(0.5,0.5)$に収束するとわかる
+
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Coordination}
+\begin{itemize}\setlength{\parskip}{0.5em}
+\item
+Coordination Gameは以下のような利得表をもつゲームである
+ \begin{table}
+ \begin{tabular}{|c|c|c|} \hline
+    & 行動0 & 行動1 \\ \hline 
+    行動0 & 4,4 & 0,3 \\ \hline
+    行動1 & 3,0 & 2,2 \\ \hline
+   \end{tabular}
+  \end{table}\pause
+\item
+このゲームの純粋戦略ナッシュ均衡は
+$(a_1,a_2)=(0,0),(1,1)$
+の2つである\pause
+\item
+また、混合戦略ナッシュ均衡は両者ともに
+$(\frac{2}{3},\frac{1}{3})$
+のみである
+\pause
+\item
+この3つのナッシュ均衡点への収束が何らかの比率で実現すると考えられるが$\cdots\cdots$?
+\item
+次ページにcoordination gameで$t=100$のfictitious playを200回行ったヒストグラムを示す
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Coordination}
+\begin{figure}
+ \centering
+ \includegraphics[width=\linewidth]{coordhist.pdf}
+ \label{fig:coordination_hist}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Coordination}
+\begin{itemize}\setlength{\parskip}{0.5em}
+\item
+前ページのヒストグラムより、3つのナッシュ均衡点のうち混合戦略ナッシュ均衡は実現していないことがわかる\pause
+\item
+これはこのゲームが「相手と同じ戦略を取るのがよい」という性質を持つゲームであり、どちらかの$x_i(t)$が0あるいは1に一定以上近づいた時点でもう片方もその行動を優先するようになるためであると考えられる\pause
+\item
+$x_i(t)$が1に収束したパターンと0に収束したパターンのグラフを次に記す\pause\\
+いずれもmatching penniesに比べ収束が速いことがわかる
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Coordination}
+\begin{figure}
+ \centering
+ \includegraphics[width=\linewidth]{coordplay0.pdf}
+ \label{fig:coordination}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Coordination}
+\begin{figure}
+ \centering
+ \includegraphics[width=\linewidth]{coordplay1.pdf}
+ \label{fig:coordination}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{まとめ}
+\begin{itemize}\setlength{\parskip}{0.5em}
+\item
+fictitious playではナッシュ均衡点に収束してゆく\pause
+\item
+だが、ナッシュ均衡点の全てが収束先となるわけではない
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{よくわかっていない点・今後の課題}
+\begin{itemize}\setlength{\parskip}{0.5em}
+\item
+coordination gameで混合戦略ナッシュ均衡が実現しないことの証明\pause
+\item
+np.transpose()を利得行列に使った際に行われている処理\pause\\
+おそらく利得行列は3次元配列の行列として扱われている\\
+3次元配列での転置とは何をどうしているのか$\cdots\cdots$?
+\item
+ヒストグラムをプロットする際、現在は値が出た区間を5等分しているが、これを結果にかかわらず$[0,1]$の区間を10等分するように変えたい
+
+\end{itemize}
+\end{frame}
 \end{document}
