@@ -16,8 +16,8 @@ class FP:
         プレイヤー0は行を、プレイヤー1は列を選択する
         """
     def oneplay(self, ts_length):
-        pro_cal = (np.transpose(self.pro)[0],
-                   np.transpose(np.transpose(self.pro)[1]))
+        pro_cal = (np.transpose(np.transpose(self.pro)[0]),
+                   np.transpose(self.pro)[1])
         """
         たとえば最初の利得行列が(((1, 2), (3, 4)),
                                  ((5, 6), (7, 8)))
